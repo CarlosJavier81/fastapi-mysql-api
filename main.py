@@ -1,24 +1,34 @@
-from fastapi import FastAPI
 import mysql.connector
+from fastapi import FastAPI
+from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List
+import mysql.connector
+import os
+from dotenv import load_dotenv
+
+# Cargar variables de entorno desde .env (solo útil en local)
+load_dotenv()
 
 app = FastAPI()
 
-def get_connection():
-    return mysql.connector.connect(
-        host="35.209.87.79",
-        user="u9jsbaaqbyjlx",
-        password="4m3mupl9wgcr",
-        root=3306,
-        database="dbfgxe58uxj7q8"
-    )
-
+# Modelo de datos para el endpoint /orders
 class Order(BaseModel):
     order_id: int
     order_date: str
     total_sales: float
 
+# Función para conectar a la base de datos usando variables de entorno
+def get_connection():
+    return mysql.connector.connect(
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        port=int(os.getenv("DB_PORT")),
+        database=os.getenv("DB_NAME")
+    )
+
+# Endpoint principal
 @app.get("/orders", response_model=List[Order])
 def get_orders():
     conn = get_connection()
