@@ -7,10 +7,11 @@ app = FastAPI()
 
 def get_connection():
     return mysql.connector.connect(
-        host="TU_HOST",
-        user="TU_USUARIO",
-        password="TU_PASSWORD",
-        database="TU_BASE"
+        host="35.209.87.79",
+        user="u9jsbaaqbyjlx",
+        password="4m3mupl9wgcr",
+        root=3306,
+        database="dbfgxe58uxj7q8"
     )
 
 class Order(BaseModel):
